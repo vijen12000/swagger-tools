@@ -30,6 +30,8 @@ var helpers = require('./lib/helpers');
 
 var initializeMiddleware = function initializeMiddleware (rlOrSO, resources, callback) {
   var args;
+  var normalized;
+  var normalizedRlOrSO;
   var spec;
 
   debug('Initializing middleware');
@@ -40,8 +42,11 @@ var initializeMiddleware = function initializeMiddleware (rlOrSO, resources, cal
     throw new TypeError('rlOrSO must be an object');
   }
 
-  args = [rlOrSO];
-  spec = helpers.getSpec(helpers.getSwaggerVersion(rlOrSO), true);
+  normalized = helpers.normalizeSwaggerDocument(rlOrSO);
+  normalizedRlOrSO = normalized.normalizedDocument;
+
+  args = [normalizedRlOrSO];
+  spec = helpers.getSpec(helpers.getSwaggerVersion(normalizedRlOrSO), true);
 
   debug('  Identified Swagger version: %s', spec.version);
 
@@ -94,7 +99,7 @@ var initializeMiddleware = function initializeMiddleware (rlOrSO, resources, cal
         // Create a wrapper to avoid having to pass the non-optional arguments back to the swaggerUi middleware
         swaggerUi: function (options) {
           var swaggerUi = require('./middleware/swagger-ui');
-          var suArgs = [rlOrSO];
+          var suArgs = [normalizedRlOrSO];
 
           if (spec.version === '1.2') {
             suArgs.push(_.reduce(resources, function (map, resource) {

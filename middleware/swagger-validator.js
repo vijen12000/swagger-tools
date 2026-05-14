@@ -196,7 +196,7 @@ var wrapEnd = function (req, res, next) {
         val = Buffer.concat(writtenData);
       }
       else if(data instanceof String) {
-        writtenData.push(new Buffer(data));
+        writtenData.push(Buffer.from(data));
         val = Buffer.concat(writtenData);
       }
       else {

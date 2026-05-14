@@ -71,7 +71,15 @@ var errorHandler = module.exports.errorHandler = function () {
 };
 
 module.exports.createServer = function (initArgs, options, callback) {
-  var app = require('connect')();
+  return module.exports.createServerWithFramework(initArgs, options, callback, 'connect');
+};
+
+module.exports.createExpressServer = function (initArgs, options, callback) {
+  return module.exports.createServerWithFramework(initArgs, options, callback, 'express');
+};
+
+module.exports.createServerWithFramework = function (initArgs, options, callback, framework) {
+  var app = framework === 'express' ? require('express')() : require('connect')();
   var serverInit = function (middleware) {
     var handler = options.handler || function (req, res) {
       res.end('OK');
