@@ -101,7 +101,25 @@ module.exports.getParameterValue = function (version, parameter, pathKeys, match
 
     break;
   case 'header':
-    val = req.headers[parameter.name.toLowerCase()];
+    if (parameter['x-original-in'] === 'cookie') {
+      var cookieHeader = req.headers.cookie || '';
+      var cookiePairs = cookieHeader.split(';');
+
+      _.each(cookiePairs, function (pair) {
+        var index = pair.indexOf('=');
+
+        if (index > -1) {
+          var name = _.trim(pair.substring(0, index));
+          var value = _.trim(pair.substring(index + 1));
+
+          if (name === parameter.name) {
+            val = decodeURIComponent(value);
+          }
+        }
+      });
+    } else {
+      val = req.headers[parameter.name.toLowerCase()];
+    }
 
     break;
   case 'path':
