@@ -1148,7 +1148,7 @@ describe('Swagger Validator Middleware v2.0', function () {
           controllers: {
             'Pets_getPetById': function (req, res) {
               var s = new stream.Readable();
-              s.push(new Buffer(JSON.stringify(samplePet)));
+              s.push(Buffer.from(JSON.stringify(samplePet)));
               s.push(null);
               s.pipe(res);
             }
@@ -1176,7 +1176,7 @@ describe('Swagger Validator Middleware v2.0', function () {
           controllers: {
             'Pets_getPetById': function (req, res) {
               var s = new stream.Readable();
-              s.push(new Buffer(JSON.stringify(sampleInvalidPet)));
+              s.push(Buffer.from(JSON.stringify(sampleInvalidPet)));
               s.push(null);
               s.pipe(res);
             }

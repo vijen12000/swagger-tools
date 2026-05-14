@@ -769,7 +769,7 @@ describe('Swagger Validator Middleware v1.2', function () {
         swaggerRouterOptions: {
           controllers: {
             'Pets_getCategoryCount': function (req, res) {
-              return res.end(new Buffer('1'));
+              return res.end(Buffer.from('1'));
             }
           }
         },
@@ -1125,7 +1125,7 @@ describe('Swagger Validator Middleware v1.2', function () {
           controllers: {
             'Pets_getPetById': function (req, res) {
               var s = new stream.Readable();
-              s.push(new Buffer(JSON.stringify(samplePet)));
+              s.push(Buffer.from(JSON.stringify(samplePet)));
               s.push(null);
               s.pipe(res);
             }
@@ -1152,7 +1152,7 @@ describe('Swagger Validator Middleware v1.2', function () {
           controllers: {
             'Pets_getPetById': function (req, res) {
               var s = new stream.Readable();
-              s.push(new Buffer(JSON.stringify(sampleInvalidPet)));
+              s.push(Buffer.from(JSON.stringify(sampleInvalidPet)));
               s.push(null);
               s.pipe(res);
             }
